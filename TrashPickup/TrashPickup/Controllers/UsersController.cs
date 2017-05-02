@@ -30,7 +30,7 @@ namespace TrashPickup.Controllers
             }
             else
             {
-                ViewBag.Name = "Not Logged IN";
+                ViewBag.Name = "Not Logged In";
             }
             return View();
         }

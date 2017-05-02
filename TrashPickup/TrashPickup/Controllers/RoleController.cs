@@ -15,17 +15,17 @@ namespace TrashPickup.Controllers
         public ActionResult Index()
         {
             ApplicationDbContext context = new ApplicationDbContext();
-            if (User.Identity.IsAuthenticated)
-            {
-                if (!User.IsInRole("Admin"))
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    if (!User.IsInRole("Admin"))
+            //    {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
             var Roles = context.Roles.ToList();
             return View(Roles);
         }
