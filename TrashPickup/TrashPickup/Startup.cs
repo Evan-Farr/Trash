@@ -9,12 +9,6 @@ namespace TrashPickup
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            CreateRolesAndUsers();
-        }
-       
-        public void CreateRolesAndUsers()
-        {
-            //ApplicationD
         }
     }
 }
