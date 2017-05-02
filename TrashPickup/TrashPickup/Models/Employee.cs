@@ -8,6 +8,11 @@ namespace TrashPickup.Models
 {
     public class Employee
     {
+        public Employee()
+        {
+            Customers = new List<Customer>();
+        }
+
         [Key]
         public int Id { get; set; }
         public int TruckId { get; set; }
@@ -21,5 +26,7 @@ namespace TrashPickup.Models
         public int ZipCode { get; set; }
         public int Phone { get; set; }
         public string Email { get; set; }
+
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
