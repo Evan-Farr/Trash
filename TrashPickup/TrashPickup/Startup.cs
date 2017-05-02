@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
+﻿
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
-using TrashPickup.Models;
+
 
 [assembly: OwinStartupAttribute(typeof(TrashPickup.Startup))]
 namespace TrashPickup
@@ -17,30 +18,30 @@ namespace TrashPickup
 
         private void CreateRolesAndUsers()
         {
-            ApplicationDbContext context = new ApplicationDbContext();
+            Models.ApplicationDbContext context = new Models.ApplicationDbContext();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var userManager = new UserManager<Models.ApplicationUser>(new UserStore<Models.ApplicationUser>(context));
   
             if (!roleManager.RoleExists("Admin"))
             {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                var role = new IdentityRole();
                 role.Name = "Admin";
                 roleManager.Create(role);                  
-                var user = new ApplicationUser();
+                var user = new Models.ApplicationUser();
                 user.UserName = "Evan";
                 user.Email = "evan.c.farr@gmail.com";
-                string userPassword = "Hockey1029!";
-                var checkUser = UserManager.Create(user, userPassword);
+                string userPassword = "Farr1029!";
+                var checkUser = userManager.Create(user, userPassword);
                 if (checkUser.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user.Id, "Admin");
+                    var result = userManager.AddToRole(user.Id, "Admin");
                 }
             }  
              
             if(!roleManager.RoleExists("Employee"))
             {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                var role = new IdentityRole();
                 role.Name = "Employee";
                 roleManager.Create(role);
             }
