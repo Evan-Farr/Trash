@@ -22,13 +22,13 @@ namespace TrashPickup.Controllers
 
                 ViewBag.displayMenu = "No";
 
-                if(isAdminUser())
+                if(isUser("Admin"))
                 {
                     ViewBag.displayMenu = "Yes";
-                }else if (isCustomer())
+                }else if (isUser("Customer"))
                 {
                     ViewBag.displayMenu = "Customer";
-                }else if (isEmployee())
+                }else if (isUser("Employee"))
                 {
                     ViewBag.displayMenu = "Employee";
                 }
@@ -41,7 +41,7 @@ namespace TrashPickup.Controllers
             return View();
         }
 
-        public bool isAdminUser()
+        public bool isUser(string role)
         {
             if(User.Identity.IsAuthenticated)
             {
@@ -49,47 +49,7 @@ namespace TrashPickup.Controllers
                 ApplicationDbContext context = new ApplicationDbContext();
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 var s = UserManager.GetRoles(user.GetUserId());
-                if(s[0].ToString() == "Admin")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool isCustomer()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                ApplicationDbContext context = new ApplicationDbContext();
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Customer")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        public bool isEmployee()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = User.Identity;
-                ApplicationDbContext context = new ApplicationDbContext();
-                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Employee")
+                if(s[0].ToString() == role)
                 {
                     return true;
                 }
