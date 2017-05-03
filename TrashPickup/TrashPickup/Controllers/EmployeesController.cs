@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -82,6 +83,9 @@ namespace TrashPickup.Controllers
         {
             if (ModelState.IsValid)
             {
+                var holder = User.Identity.GetUserId();
+                var same = db.Users.Where(s => s.Id == holder).FirstOrDefault();
+                employee.userId = same;
                 db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Users");
@@ -181,5 +185,24 @@ namespace TrashPickup.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //public ActionResult DisplayDailyStops(string zipCode)
+        //{
+        //    var TodaysPickups = new List<Customer>();
+        //    var pickups = db.Customers.Where(p => p.NextScheduledPickUp == DateTime.Today).GroupBy(z => z.ZipCode).Select(s => s.StreetAddress).ToList();
+        //    foreach(var pickup in pickups)
+        //    {
+        //        TodaysPickups.Add(pickup);
+        //    }
+        //    if (TodaysPickups.Count == 0)
+        //    {
+        //        ViewBag.Message = "You have 0 scheduled pickups in your area code today.";
+        //        return View();
+        //    }
+        //    else
+        //    {
+        //        return View(TodaysPickups);
+        //    }
+        //}
     }
 }

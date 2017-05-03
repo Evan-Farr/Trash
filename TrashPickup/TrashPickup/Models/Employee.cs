@@ -28,5 +28,6 @@ namespace TrashPickup.Models
         public string Email { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ApplicationUser userId { get; set; }
     }
 }

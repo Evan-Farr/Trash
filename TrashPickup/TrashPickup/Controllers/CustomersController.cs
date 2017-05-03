@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -83,9 +84,11 @@ namespace TrashPickup.Controllers
         {
             if (ModelState.IsValid)
             {
+                var holder = User.Identity.GetUserId();
+                var same = db.Users.Where(s => s.Id == holder).FirstOrDefault();
+                customer.userId = same;
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
                 return RedirectToAction("Index", "Users");
             }
             return View(customer);

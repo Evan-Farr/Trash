@@ -20,7 +20,9 @@ namespace TrashPickup.Models
         public int ZipCode { get; set; }
         public int Phone { get; set; }
         public string Email { get; set; }
+        
 
         public virtual Employee TrashMan { get; set; }
+        public virtual ApplicationUser userId { get; set; }
     }
 }

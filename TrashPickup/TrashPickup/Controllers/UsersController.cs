@@ -19,17 +19,22 @@ namespace TrashPickup.Controllers
             {
                 var user = User.Identity;
                 ViewBag.Name = user.Name;
-
                 ViewBag.displayMenu = "No";
-
-                if(isUser("Admin"))
+                ApplicationDbContext db = new ApplicationDbContext();
+                if (isUser("Admin"))
                 {
                     ViewBag.displayMenu = "Yes";
                 }else if (isUser("Customer"))
                 {
+                    string holder = user.GetUserId();
+                    var temp = db.Customers.Where(i => i.userId.Id == holder).FirstOrDefault().Id;
+                    ViewBag.Id = temp;
                     ViewBag.displayMenu = "Customer";
                 }else if (isUser("Employee"))
                 {
+                    string holder = user.GetUserId();
+                    var temp = db.Employees.Where(i => i.userId.Id == holder).FirstOrDefault().Id;
+                    ViewBag.Id = temp;
                     ViewBag.displayMenu = "Employee";
                 }
                 return View();

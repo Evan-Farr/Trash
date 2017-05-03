@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TrashPickup.Models.Customer>
+
+@{
+    ViewBag.Title = "DisplayDailyStops";
+}
+
+<h2>DisplayDailyStops</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.ActionLink("Back", "Index", "Users") |
+            </td>
+        </tr>
+    }
+</table>
+
