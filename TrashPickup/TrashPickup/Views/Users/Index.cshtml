@@ -16,17 +16,17 @@ else if(ViewBag.displayMenu == "Customer")
 {
     <h2>Welcome <strong>@ViewBag.Name</strong>!</h2>
     <h3>
-        <li>@Html.ActionLink("My Account", "Index", "")</li>
-        <li>@Html.ActionLink("Schedule Pickups", "Index", "")</li>
+        <li>@Html.ActionLink("My Account", "Details", "Customers")</li>
+        <li>@Html.ActionLink("Schedule Pickups", "", "")</li>
     </h3>
 }
 else if (ViewBag.displayMenu == "Employee")
 {
     <h2>Welcome <strong>@ViewBag.Name</strong>!</h2>
     <h3>
-        <li>@Html.ActionLink("My Account", "Index", "")</li>
-        <li>@Html.ActionLink("Today's Pickups", "Index", "")</li>
-        <li>@Html.ActionLink("Pickups by Week", "Index", "")</li>
+        <li>@Html.ActionLink("My Account", "Details", "Employees")</li>
+        <li>@Html.ActionLink("Today's Pickups", "", "")</li>
+        <li>@Html.ActionLink("Pickups by Week", "", "")</li>
     </h3>
 } 
 
