@@ -16,7 +16,7 @@ else if(ViewBag.displayMenu == "Customer")
 {
     <h2>Welcome <strong>@ViewBag.Name</strong>!</h2>
     <h3>
-        <li>@Html.ActionLink("My Account", "Details", "Customers")</li>
+        <li>@Html.ActionLink("My Account", "Details", "Customers", new { id = ViewBag.Id }, null)</li>
         <li>@Html.ActionLink("Schedule Pickups", "", "")</li>
     </h3>
 }
