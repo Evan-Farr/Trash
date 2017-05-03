@@ -35,6 +35,20 @@ namespace TrashPickup.Controllers
             return View(employee);
         }
 
+        public ActionResult PrivateDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
         // GET: Employees/Create
         public ActionResult Create()
         {
@@ -52,9 +66,8 @@ namespace TrashPickup.Controllers
             {
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Users");
             }
-
             return View(employee);
         }
 
@@ -85,6 +98,33 @@ namespace TrashPickup.Controllers
                 db.Entry(employee).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            return View(employee);
+        }
+
+        public ActionResult PrivateEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PrivateEdit([Bind(Include = "Id,TruckId,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email")] Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(employee).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Users");
             }
             return View(employee);
         }

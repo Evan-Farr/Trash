@@ -171,7 +171,7 @@ namespace TrashPickup.Controllers
                     {
                         return RedirectToAction("Create", "Customers");
                     }
-                    else if (User.IsInRole("Employee"))
+                    else if (model.UserRoles == "Employee")
                     {
                         return RedirectToAction("Create", "Employees");
                     }
