@@ -35,15 +35,15 @@ namespace TrashPickup.Controllers
             return View();
         }
 
-        public Boolean isAdminUser()
+        public bool isAdminUser()
         {
-            if (User.Identity.IsAuthenticated)
+            if(User.Identity.IsAuthenticated)
             {
                 var user = User.Identity;
                 ApplicationDbContext context = new ApplicationDbContext();
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 var s = UserManager.GetRoles(user.GetUserId());
-                if (s[0].ToString() == "Admin")
+                if(s[0].ToString() == "Admin")
                 {
                     return true;
                 }
