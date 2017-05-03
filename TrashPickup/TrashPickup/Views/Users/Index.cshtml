@@ -3,15 +3,30 @@
     ViewBag.Title = "Index";
 }
 
-@if (ViewBag.displayMenu == "Yes")
+@if(ViewBag.displayMenu == "Yes")
 {
     <h1>Welcome Admin.</h1>
     <h3>
         <li>@Html.ActionLink("Manage Roles", "Index", "Role")</li>
+        <li>@Html.ActionLink("View Customers", "Index", "Customers")</li>
+        <li>@Html.ActionLink("View Employees", "Index", "Employees")</li>
     </h3>
 }
-else
+else if(ViewBag.displayMenu == "Customer")
 {
-    <h2>  Welcome <strong>@ViewBag.Name</strong>! We will add user module soon. </h2>
+    <h2>Welcome <strong>@ViewBag.Name</strong>!</h2>
+    <h3>
+        <li>@Html.ActionLink("My Account", "Index", "")</li>
+        <li>@Html.ActionLink("Schedule Pickups", "Index", "")</li>
+    </h3>
+}
+else if (ViewBag.displayMenu == "Employee")
+{
+    <h2>Welcome <strong>@ViewBag.Name</strong>!</h2>
+    <h3>
+        <li>@Html.ActionLink("My Account", "Index", "")</li>
+        <li>@Html.ActionLink("Today's Pickups", "Index", "")</li>
+        <li>@Html.ActionLink("Pickups by Week", "Index", "")</li>
+    </h3>
 } 
 
