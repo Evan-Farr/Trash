@@ -169,11 +169,11 @@ namespace TrashPickup.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     if (model.UserRoles == "Customer")
                     {
-                        return RedirectToAction("Create", "Customers");
+                        return RedirectToAction("PrivateCreate", "Customers");
                     }
                     else if (model.UserRoles == "Employee")
                     {
-                        return RedirectToAction("Create", "Employees");
+                        return RedirectToAction("PrivateCreate", "Employees");
                     }
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin")).ToList(), "Name", "Name");

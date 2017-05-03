@@ -72,6 +72,25 @@ namespace TrashPickup.Controllers
             return View(customer);
         }
 
+        public ActionResult PrivateCreate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PrivateCreate([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email")] Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Customers.Add(customer);
+                db.SaveChanges();
+                //return RedirectToAction("Index");
+                return RedirectToAction("Index", "Users");
+            }
+            return View(customer);
+        }
+
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
