@@ -141,7 +141,7 @@ namespace TrashPickup.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PrivateEdit([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email")] Customer customer)
+        public ActionResult PrivateEdit([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickup")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -203,7 +203,7 @@ namespace TrashPickup.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SchedulePickUp([Bind(Include = "Id,StreetAddress,ZipCode,NextScheduledPickUp")] Customer customer)
+        public ActionResult SchedulePickUp([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickUp")] Customer customer)
         {
             if (ModelState.IsValid)
             {
