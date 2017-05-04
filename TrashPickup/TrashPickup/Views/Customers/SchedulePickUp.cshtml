@@ -18,13 +18,10 @@
         @Html.HiddenFor(model => model.Id)
 
         <h4>Current Next Pickup</h4>
-        <dt>
-            @Html.DisplayNameFor(model => model.NextScheduledPickUp)
-        </dt>
         <dd>
             @Html.DisplayFor(model => model.NextScheduledPickUp)
         </dd>
-        <br><br />
+        <br><hr />
         <div class="form-group">
             @Html.LabelFor(model => model.NextScheduledPickUp, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
