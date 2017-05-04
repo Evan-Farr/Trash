@@ -203,7 +203,7 @@ namespace TrashPickup.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SchedulePickUp([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email")] Customer customer)
+        public ActionResult SchedulePickUp([Bind(Include = "Id,StreetAddress,ZipCode,NextScheduledPickUp")] Customer customer)
         {
             if (ModelState.IsValid)
             {
