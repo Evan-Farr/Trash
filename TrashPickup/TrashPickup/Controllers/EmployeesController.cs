@@ -190,5 +190,10 @@ namespace TrashPickup.Controllers
         {
             return View(db.Customers.Where(p => p.NextScheduledPickUp == DateTime.Today && p.ZipCode == zipCode).ToList());
         }
+
+        public ActionResult ShowMap()
+        {
+            return View();
+        }
     }
 }
