@@ -186,23 +186,23 @@ namespace TrashPickup.Controllers
             base.Dispose(disposing);
         }
 
-        //public ActionResult DisplayDailyStops(string zipCode)
-        //{
-        //    var TodaysPickups = new List<Customer>();
-        //    var pickups = db.Customers.Where(p => p.NextScheduledPickUp == DateTime.Today).GroupBy(z => z.ZipCode).Select(s => s.StreetAddress).ToList();
-        //    foreach(var pickup in pickups)
-        //    {
-        //        TodaysPickups.Add(pickup);
-        //    }
-        //    if (TodaysPickups.Count == 0)
-        //    {
-        //        ViewBag.Message = "You have 0 scheduled pickups in your area code today.";
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        return View(TodaysPickups);
-        //    }
-        //}
+        public ActionResult DisplayDailyStops(string zipCode)
+        {
+            var TodaysPickups = new List<string>();
+            var pickups = db.Customers.Where(p => p.NextScheduledPickUp == DateTime.Today && p.ZipCode == zipCode).Select(s => s.StreetAddress).ToList();
+            foreach (var pickup in pickups)
+            {
+                TodaysPickups.Add(pickup);
+            }
+            if (TodaysPickups.Count == 0)
+            {
+                ViewBag.Message = "You have 0 scheduled pickups in your area code today.";
+                return View();
+            }
+            else
+            {
+                return View(TodaysPickups);
+            }
+        }
     }
 }

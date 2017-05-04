@@ -4,11 +4,8 @@
     ViewBag.Title = "DisplayDailyStops";
 }
 
-<h2>DisplayDailyStops</h2>
+<h2>Today's Pickups</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -35,4 +32,8 @@
         </tr>
     }
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryv")
+}
 

@@ -25,7 +25,7 @@ else if (ViewBag.displayMenu == "Employee")
     <h2>Welcome <strong>@ViewBag.Name</strong>!</h2>
     <h3>
         <li>@Html.ActionLink("My Account", "PrivateDetails", "Employees", new { id = ViewBag.Id }, null)</li>
-        <li>@Html.ActionLink("Today's Pickups", "", "")</li>
+        <li>@Html.ActionLink("Today's Pickups", "DisplayDailyStops", "Employees", new { zipCode = ViewBag.ZipCode }, null)</li>
     </h3>
 } 
 
