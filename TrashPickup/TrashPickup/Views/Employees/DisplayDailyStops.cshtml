@@ -27,10 +27,15 @@
                 @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
             <td>
-                @Html.ActionLink("Back", "Index", "Users") |
+                @Html.ActionLink("View on Map", "", "") |
             </td>
         </tr>
     }
+    <tr>
+        <td>
+            @Html.ActionLink("Back", "Index", "Users") |
+        </td>
+    </tr>
 </table>
 
 @section Scripts {
