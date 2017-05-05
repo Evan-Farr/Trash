@@ -29,7 +29,9 @@ namespace TrashPickup.Models
         [StringLength(10)]
         public string Phone { get; set; }
         public string Email { get; set; }
-        public string MoneyOwed { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
+        public decimal? MoneyOwed { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? NextScheduledPickUp { get; set; }
