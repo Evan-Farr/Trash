@@ -60,13 +60,21 @@ namespace TrashPickup
         {
             Models.ApplicationDbContext db = new Models.ApplicationDbContext();
             var checks = db.Customers.Where(p => p.NextScheduledPickUp != null).ToList();
+            int amount = 10;
+            decimal decimalValue = amount;
             if(checks.Count != 0)
             {
                 foreach(var person in checks)
                 {
                     if(person.NextScheduledPickUp < DateTime.Today)
                     {
-                        person.MoneyOwed += 10;
+                        if(person.MoneyOwed == null)
+                        {
+                            person.MoneyOwed = decimalValue;
+                        }else
+                        {
+                            person.MoneyOwed += decimalValue;
+                        }
                         person.NextScheduledPickUp = null;
                     }
                 }
