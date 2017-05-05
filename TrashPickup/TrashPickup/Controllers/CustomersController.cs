@@ -213,5 +213,19 @@ namespace TrashPickup.Controllers
             }
             return View(customer);
         }
+
+        public ActionResult ViewBilling(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
     }
 }

@@ -43,29 +43,38 @@
 <script>
       var geocoder;
       var map;
+      //var directionsDisplay = new google.maps.DirectionsRenderer();
+      //var directionsService = new google.maps.DirectionsService();
+      //var infoWindow = new google.maps.InfoWindow({
+      //    size: new google.maps.Size(150, 50)
+      //});
       var pickups = @Html.Raw(Json.Encode(Model));
       function initMap() {
           geocoder = new google.maps.Geocoder();
           var latlng = new google.maps.LatLng(43.0389, -87.9065);
           var mapOptions = {
               center: latlng,
-              zoom: 10,
+              zoom: 13,
               mapTypeId: google.maps.MapTypeId.ROADMAP
           };
           map = new google.maps.Map(document.getElementById("map"), mapOptions);
           codeAddress();
-          //setMarkers(map);
+          //map.addEventListener('click', function() {
+          //    map.setZoom(15);
+          //    map.setCenter(marker.getPosition());
+          //});
       }
 
     function codeAddress() {
-        for(var i = 0; i < pickups.Count; i++){
-            var address = pickups[i].StreetAddress + ", " + pickups[i].City + ", " + pickups[i].State + ", " + pickups[i].ZipCode;
+        for(var i = 0; i < pickups.length; i++){
+            var address = pickups[i].StreetAddress + " " + pickups[i].City + " " + pickups[i].State + " " + pickups[i].ZipCode;
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == 'OK') {
                     map.setCenter(results[0].geometry.location);
                     var marker = new google.maps.Marker({
                         map: map,
-                        position: results[0].geometry.location
+                        position: results[0].geometry.location,
+                        animation: google.maps.Animation.DROP
                     });
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
@@ -73,17 +82,6 @@
             });
         }
     }
-      //function setMarkers(map) {
-      //    for (var i = 0; i < pickups.Count; i++) {
-      //        var marker = new google.maps.Marker({
-      //            map: map,
-      //            position: { lat: pickup[1], lng: pickup[2] },
-      //            draggable: false,
-      //            animation: google.maps.Animation.DROP,
-      //            zIndex: pickup[3]
-      //        });
-      //    }
-      //}
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfmcqeeLL7DKbqLtpyfSTphE-21OOr5D0&callback=initMap"></script>
 
