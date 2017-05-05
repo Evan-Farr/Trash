@@ -3,7 +3,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
-
+using System;
+using System.Linq;
 
 [assembly: OwinStartupAttribute(typeof(TrashPickup.Startup))]
 namespace TrashPickup
@@ -14,6 +15,7 @@ namespace TrashPickup
         {
             ConfigureAuth(app);
             CreateRolesAndUsers();
+            CheckForExpiredPickUps();
         }
 
         private void CreateRolesAndUsers()
@@ -51,6 +53,24 @@ namespace TrashPickup
                 var role = new IdentityRole();
                 role.Name = "Customer";
                 roleManager.Create(role);
+            }
+        }
+
+        private void CheckForExpiredPickUps()
+        {
+            Models.ApplicationDbContext db = new Models.ApplicationDbContext();
+            var checks = db.Customers.Where(p => p.NextScheduledPickUp != null).ToList();
+            if(checks.Count != 0)
+            {
+                foreach(var person in checks)
+                {
+                    if(person.NextScheduledPickUp < DateTime.Today)
+                    {
+                        person.MoneyOwed += 10;
+                        person.NextScheduledPickUp = null;
+                    }
+                }
+                db.SaveChanges();
             }
         }
     }
