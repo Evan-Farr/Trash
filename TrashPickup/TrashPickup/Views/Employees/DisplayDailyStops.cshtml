@@ -38,52 +38,182 @@
     </tr>
 </table>
 <hr />
+<br />
+@*<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Waypoints in directions</title>
+    <style>
+        #right-panel {
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
 
-<div id="map"></div>
-<script>
-      var geocoder;
-      var map;
-      //var directionsDisplay = new google.maps.DirectionsRenderer();
-      //var directionsService = new google.maps.DirectionsService();
-      //var infoWindow = new google.maps.InfoWindow({
-      //    size: new google.maps.Size(150, 50)
-      //});
-      var pickups = @Html.Raw(Json.Encode(Model));
-      function initMap() {
-          geocoder = new google.maps.Geocoder();
-          var latlng = new google.maps.LatLng(43.0389, -87.9065);
-          var mapOptions = {
-              center: latlng,
-              zoom: 13,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-          };
-          map = new google.maps.Map(document.getElementById("map"), mapOptions);
-          codeAddress();
-          //map.addEventListener('click', function() {
-          //    map.setZoom(15);
-          //    map.setCenter(marker.getPosition());
-          //});
-      }
+            #right-panel select, #right-panel input {
+                font-size: 15px;
+            }
 
-    function codeAddress() {
-        for(var i = 0; i < pickups.length; i++){
-            var address = pickups[i].StreetAddress + " " + pickups[i].City + " " + pickups[i].State + " " + pickups[i].ZipCode;
-            geocoder.geocode( { 'address': address}, function(results, status) {
-                if (status == 'OK') {
-                    map.setCenter(results[0].geometry.location);
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: results[0].geometry.location,
-                        animation: google.maps.Animation.DROP
+            #right-panel select {
+                width: 100%;
+            }
+
+            #right-panel i {
+                font-size: 12px;
+            }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+            float: left;
+            width: 70%;
+            height: 100%;
+        }
+
+        #right-panel {
+            margin: 20px;
+            border-width: 2px;
+            width: 20%;
+            height: 400px;
+            float: left;
+            text-align: left;
+            padding-top: 0;
+        }
+
+        #directions-panel {
+            margin-top: 10px;
+            background-color: #FFEE77;
+            padding: 10px;
+            overflow: scroll;
+            height: 174px;
+        }
+    </style>
+</head>*@
+
+    <div id="map"></div>
+    @*<div id="right-panel">
+        <div>
+            <b>Start:</b>
+            <select id="start">
+                <option value="333 N Plankinton Ave, Milwaukee, WI 53203">devCodeCamp</option>
+            </select>
+            <br>
+            <b>Waypoints:</b> <br>
+            <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br>
+            <select multiple id="waypoints">
+                <option value="pickups[0].StreetAddress">Address 1</option>
+                <option value="pickups[1]">Address 2</option>
+                <option value="pickups[2]">Address 3</option>
+                <option value="pickups[3]">Address 4</option>
+                <option value="pickups[4]">Address 5</option>
+            </select>
+            <br>
+            <b>End:</b>
+            <select id="end">
+                <option value="333 N Plankinton Ave, Milwaukee, WI 53203">devCodeCamp</option>
+            </select>
+            <br>
+            <input type="submit" id="submit">
+        </div>*@
+        <div id="directions-panel"></div>
+    @*</div>*@
+
+    @*<div id="map"></div>*@
+    <script>
+        var geocoder;
+        var map;
+        var directionsDisplay;
+        var directionsService;
+        var stepDisplay;
+        var pickups = @Html.Raw(Json.Encode(Model));
+        var waypts = new [];
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            var latlng = new google.maps.LatLng(43.0389, -87.9065);
+            var mapOptions = {
+                center: latlng,
+                zoom: 13,
+            };
+            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            directionsDisplay.setMap(map);
+            //directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+            document.getElementById('submit').addEventListener('click', function() {
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+            });
+            codeAddress();
+        }
+
+        function codeAddress() {
+            for(var i = 0; i < pickups.length; i++){
+                var address = pickups[i].StreetAddress + " " + pickups[i].City + " " + pickups[i].State + " " + pickups[i].ZipCode;
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                    waypts.push({
+                        location: results[0],
+                        stopover: true
                     });
+                    if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: results[0].geometry.location,
+                            animation: google.maps.Animation.DROP
+                        });
+                    } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+            directionsService.route({
+                origin: new google.maps.LatLng(43.0389, -87.9065),
+                destination: new google.maps.LatLng(43.0389, -87.9065),
+                waypoints: waypts,
+                optimizeWaypoints: true,
+                travelMode: 'DRIVING'
+            }, function(response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    var summaryPanel = document.getElementById('directions-panel');
+                    summaryPanel.innerHTML = '';
+                    for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                            '</b><br>';
+                        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                    }
                 } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
+                    window.alert('Directions request failed due to ' + status);
                 }
             });
         }
-    }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfmcqeeLL7DKbqLtpyfSTphE-21OOr5D0&callback=initMap"></script>
+
+        //function calcRoute() {
+        //    var start = document.getElementById('start').value;
+        //    var end = document.getElementById('end').value;
+        //    var request = {
+        //        origin:start,
+        //        destination:end,
+        //        travelMode: 'DRIVING'
+        //    };
+        //    directionsService.route(request, function(response, status) {
+        //        if (status == 'OK') {
+        //            directionsDisplay.setDirections(response);
+        //        }
+        //    });
+        //}
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfmcqeeLL7DKbqLtpyfSTphE-21OOr5D0&callback=initMap"></script>
 
 
 
