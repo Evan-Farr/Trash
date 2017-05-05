@@ -131,7 +131,7 @@
         var directionsService;
         var stepDisplay;
         var pickups = @Html.Raw(Json.Encode(Model));
-        var waypts = new [];
+        var waypts = [];
         function initMap() {
             geocoder = new google.maps.Geocoder();
             directionsDisplay = new google.maps.DirectionsRenderer();
@@ -141,12 +141,12 @@
                 zoom: 13,
             };
             map = new google.maps.Map(document.getElementById("map"), mapOptions);
-            directionsDisplay.setMap(map);
-            //directionsDisplay.setPanel(document.getElementById('directionsPanel'));
-            document.getElementById('submit').addEventListener('click', function() {
-                calculateAndDisplayRoute(directionsService, directionsDisplay);
-            });
             codeAddress();
+            directionsDisplay.setMap(map);
+            //directionsDisplay.setPanel(document.getElementById('directions-Panel'));
+            //document.getElementById('submit').addEventListener('click', function() {
+                calculateAndDisplayRoute(directionsService, directionsDisplay);
+            //});
         }
 
         function codeAddress() {
