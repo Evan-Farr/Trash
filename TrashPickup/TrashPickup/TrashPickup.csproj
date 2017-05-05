@@ -342,6 +342,7 @@
     <Content Include="Views\Employees\PrivateCreate.cshtml" />
     <Content Include="Views\Employees\DisplayDailyStops.cshtml" />
     <Content Include="Views\Customers\SchedulePickUp.cshtml" />
+    <Content Include="Views\Customers\ViewBalance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

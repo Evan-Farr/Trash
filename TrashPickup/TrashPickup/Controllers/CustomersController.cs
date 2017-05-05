@@ -213,7 +213,7 @@ namespace TrashPickup.Controllers
             return View(customer);
         }
 
-        public ActionResult ViewBilling(int? id)
+        public ActionResult ViewBalance(int? id)
         {
             if (id == null)
             {

@@ -17,7 +17,7 @@ else if(ViewBag.displayMenu == "Customer")
     <h3>
         <li>@Html.ActionLink("My Account", "PrivateDetails", "Customers", new { id = ViewBag.Id }, null)</li>
         <li>@Html.ActionLink("Schedule Next Pickup", "SchedulePickUp", "Customers", new { id = ViewBag.Id }, null)</li>
-        <li>@Html.ActionLink("Billing", "ViewBalance", "Customers", new { id = ViewBag.Id }, null)</li>
+        <li>@Html.ActionLink("My Current Balance", "ViewBalance", "Customers", new { id = ViewBag.Id }, null)</li>
     </h3>
 }
 else if (ViewBag.displayMenu == "Employee")
