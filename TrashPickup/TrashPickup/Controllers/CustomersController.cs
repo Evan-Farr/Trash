@@ -67,7 +67,6 @@ namespace TrashPickup.Controllers
             {
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
                 return RedirectToAction("Index", "Users");
             }
             return View(customer);
@@ -114,7 +113,7 @@ namespace TrashPickup.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickup,MoneyOwed")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -141,7 +140,7 @@ namespace TrashPickup.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PrivateEdit([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickup")] Customer customer)
+        public ActionResult PrivateEdit([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickup,MoneyOwed")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -203,7 +202,7 @@ namespace TrashPickup.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SchedulePickUp([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickUp")] Customer customer)
+        public ActionResult SchedulePickUp([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickUp,MoneyOwed")] Customer customer)
         {
             if (ModelState.IsValid)
             {
