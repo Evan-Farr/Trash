@@ -26,9 +26,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
-            <td>
+            @*<td>
                 @Html.ActionLink("View on Map", "", "") |
-            </td>
+            </td>*@
         </tr>
     }
     <tr>
@@ -42,7 +42,6 @@
 
     <div id="map"></div>
     <div id="directions-panel"></div>
-    <input type="button" value="View Routes" onclick="calculateAndDisplayRoute()"/>
 
     <script>
         var geocoder;
@@ -64,6 +63,7 @@
             map = new google.maps.Map(document.getElementById("map"), mapOptions);
             directionsDisplay.setMap(map);
             codeAddress();
+            calculateAndDisplayRoute();
         }
 
         function codeAddress() {
@@ -92,7 +92,7 @@
             console.log(waypts);
             directionsService.route({
                 origin: "333 n plankinton ave Milwaukee, wi 53202",
-                destination: "1320 s 1st st Milwaukee, wi 53202",
+                destination: "333 n plankinton ave Milwaukee, wi 53202",
                 waypoints: waypts,
                 optimizeWaypoints: true,
                 travelMode: 'DRIVING'
