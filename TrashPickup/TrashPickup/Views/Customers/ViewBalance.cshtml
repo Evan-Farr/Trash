@@ -16,7 +16,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <h4>Current Balance</h4>
+        <h4>Current Balance Due</h4>
         <h6>If nothing is shown, you do not owe anything at this time!</h6>
         <dd>
             <p>$ @Html.DisplayFor(model => model.MoneyOwed)</p>
