@@ -72,14 +72,14 @@
         <br />
         <div class="form-group">
             @Html.LabelFor(model => model.NextScheduledPickUp, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" id="tbDate">
-                @Html.EditorFor(model => model.NextScheduledPickUp, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NextScheduledPickUp, new { htmlAttributes = new { @id = "tbDate", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NextScheduledPickUp, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" @*onclick="Validate()"*@/>
+                <input type="submit" value="Save" class="btn btn-default" onclick="ValidateDate()"/>
             </div>
         </div>
     </div>
@@ -92,19 +92,25 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-@*<script>
- function Validate()
- {
-  var intFlag = 0;
-  var dtDate = document.getElementById("tbDate").value;
-  var currentDate = new Date();
-  if (dtDate < currentDate)
-  {
-      alert("Date selected must be 24 hours in advance of today's date.\n");
-      return false;
-  }
-  else {
-      return true;
-  }
- }
-</script>*@
+<script>
+    function ValidateDate()
+    {
+        var dtDate = document.getElementById("tbDate").value;
+        var currentDate = new Date();
+        //var options = { year: 'numeric', day: 'numeric', month: 'numeric' };
+        var today = currentDate.toLocaleDateString();
+        var convertDate = function (usDate) {
+            var dateParts = usDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            return dateParts[3] + "-" + dateParts[1] + "-" + dateParts[2];
+        }
+        todaysDate = convertDate(today);
+      if (dtDate <= todaysDate)
+      {
+          alert("Your next pickup must be 24 hours from now.\n Please select any day after today's date.");
+          return false;
+      }
+      else {
+          return true;
+      }
+    }
+</script>
