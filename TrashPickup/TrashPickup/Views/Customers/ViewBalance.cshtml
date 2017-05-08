@@ -19,7 +19,7 @@
         <h4>Current Balance Due</h4>
         <h6>If nothing is shown, you do not owe anything at this time!</h6>
         <dd>
-            <p>$ @Html.DisplayFor(model => model.MoneyOwed)</p>
+            <p id="money">$ @Html.DisplayFor(model => model.MoneyOwed)</p>
         </dd>
         <br><hr />
         <div class="col-md-10">
@@ -77,11 +77,12 @@
         <br />
 
             
-        <div class="form-group">
+        @*<div class="form-group">
             <div class="col-md-offset-1">
-                <p><a class="btn btn-default" href="https://www.paypal.com/us/home">Pay with PayPal! &raquo;</a></p>
+                <p><a class="btn btn-default" href="https://www.sandbox.paypal.com/">Pay with PayPal! &raquo;</a></p>
             </div>
-        </div>
+        </div>*@
+        <div id="paypal-button"></div>
     </div>
 }
 <div>
@@ -91,4 +92,36 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
+<script>
+    paypal.Button.render({
+
+        env: 'sandbox', 
+
+        client: {
+            sandbox:    'AUY2n2gKnWK3vjUMjnAlpZ2Uz3gIdLGaZHLQzwBD-i6V0JKC6giw_1kiHZMmuSYtZML9BpMKHwVqd1r-',
+            //production: 'xxxxxxxxx'
+        },
+
+        commit: true, 
+
+        payment: function(data, actions) {
+            return actions.payment.create({
+                transactions: [
+                    {
+                        amount: { total: document.getElementById('money').value.ToString(), currency: 'USD' }
+                    }
+                ]
+            });
+        },
+
+        onAuthorize: function(data, actions) {
+            return actions.payment.execute().then(function(payment) {
+
+                alert("The payment is complete!");
+            });
+        }
+
+    }, '#paypal-button');
+</script>
