@@ -204,8 +204,18 @@ namespace TrashPickup.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SchedulePickUp([Bind(Include = "Id,FirstName,LastName,Age,StreetAddress,City,State,ZipCode,Phone,Email,NextScheduledPickUp,MoneyOwed")] Customer customer)
         {
+            //if (customer.NextScheduledPickUp <= DateTime.Today)
+            //{
+            //    TempData["ErrorMessage"]="Your next pickup must be 24 hours from now.\n Please select any day after today's date.";
+            //    return RedirectToAction("SchedulePickUp", "Customers");
+            //} 
             if (ModelState.IsValid)
             {
+                if (customer.NextScheduledPickUp <= DateTime.Today)
+                {
+                    TempData["ErrorMessage"] = "Your next pickup must be 24 hours from now.\n Please select any day after today's date.";
+                    return RedirectToAction("SchedulePickUp", "Customers");
+                }
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Users");
