@@ -96,15 +96,8 @@
     function ValidateDate()
     {
         var dtDate = document.getElementById("tbDate").value;
-        var currentDate = new Date();
-        //var options = { year: 'numeric', day: 'numeric', month: 'numeric' };
-        var today = currentDate.toLocaleDateString();
-        var convertDate = function (usDate) {
-            var dateParts = usDate.split(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-            return dateParts[3] + "-" + dateParts[1] + "-" + dateParts[2];
-        }
-        todaysDate = convertDate(today);
-      if (dtDate <= todaysDate)
+        var currentDate = new Date().toJSON();
+      if (dtDate <= currentDate)
       {
           alert("Your next pickup must be 24 hours from now.\n Please select any day after today's date.");
           return false;
