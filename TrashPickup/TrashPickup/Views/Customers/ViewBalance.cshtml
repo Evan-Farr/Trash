@@ -82,7 +82,7 @@
                 <p><a class="btn btn-default" href="https://www.sandbox.paypal.com/">Pay with PayPal! &raquo;</a></p>
             </div>
         </div>*@
-        <div id="paypal-button"></div>
+        <div id="paypal-button-container"></div>
     </div>
 }
 <div>
@@ -101,16 +101,16 @@
 
         client: {
             sandbox:    'AUY2n2gKnWK3vjUMjnAlpZ2Uz3gIdLGaZHLQzwBD-i6V0JKC6giw_1kiHZMmuSYtZML9BpMKHwVqd1r-',
-            //production: 'xxxxxxxxx'
+            //production: '<insert production client id>'
         },
 
         commit: true, 
 
-        payment: function(data, actions) {
+        payment: function (data, actions) {
             return actions.payment.create({
                 transactions: [
                     {
-                        amount: { total: document.getElementById('money').value.ToString(), currency: 'USD' }
+                        amount: { total: document.getElementById('money').value, currency: 'USD' }
                     }
                 ]
             });
@@ -118,10 +118,34 @@
 
         onAuthorize: function(data, actions) {
             return actions.payment.execute().then(function(payment) {
-
-                alert("The payment is complete!");
+                document.querySelector('#paypal-button-container').innerText = 'Payment Complete!';
             });
         }
 
-    }, '#paypal-button');
+    }, '#paypal-button-container');
 </script>
+
+@*//ServerSide*@
+@*<script>
+    paypal.Button.render({
+
+        env: 'sandbox',
+
+        payment: function() {
+            return paypal.request.post('http://localhost:4737/Customers/ViewBalance/15/checkout/api/paypal/payment/create/').then(function (res) {
+                return res.payToken;
+            });
+        },
+
+        onAuthorize: function(data, actions) {
+            return paypal.request.post('http://localhost:4737/Customers/ViewBalance/15/checkout/api/paypal/payment/execute/', {
+                payToken: data.paymentID,
+                payerId: data.payerID
+            }).then(function (res) {
+                document.querySelector('#paypal-button-container').innerText = 'Payment Complete!';
+            });
+        }
+    }, '#paypal-button-container');
+</script>*@
+
+@*document.getElementById('money').value.ToString()*@
